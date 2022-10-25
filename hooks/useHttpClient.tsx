@@ -12,6 +12,13 @@ export default function useHttpClient() {
         const res = await fetch(URL + endpoint, { headers: { Authorization: "Bearer " + _token } });
         return res.json();
     };
+    const getUrl = async (url, _token = undefined) => {
+        if (!_token) {
+            _token = token ?? await fetchToken();
+        }
+        const res = await fetch(url, { headers: { Authorization: "Bearer " + _token } });
+        return res.json();
+    };
 
     const ping = async (testToken: string) => {
         if (testToken) {
@@ -28,11 +35,9 @@ export default function useHttpClient() {
         return await get(endpoint);
     };
 
-    // const getMoreTransactions = async (endpoint, pageSize = 20) => {
-    //     endpoint = endpoint.replace(baseURL, "")
-    //     return await get(endpoint)
-    // }
+    const getNextTransactions = async (link) => {
+        return await getUrl(link);
+    };
 
-
-    return { ping, getAccounts, getTransactions };
+    return { ping, getAccounts, getTransactions, getNextTransactions };
 }

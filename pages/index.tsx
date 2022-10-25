@@ -27,7 +27,6 @@ const AccountSummary = ({ accounts, transactions, raiseSelectedAccount }) => {
 
         return <div>{formattedParts.map(p => p)}</div>;
     };
-    console.log("AS transactions", transactions)
 
     return (
         <>

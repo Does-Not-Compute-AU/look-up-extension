@@ -27,5 +27,4 @@ export const parseBaseUnit = (value: number) => {
         return "$" + Math.abs(value / 100);
     }
     return "+$" + value / 100;
-
 };

@@ -5,7 +5,7 @@ import { HiChevronLeft, HiCog } from "react-icons/hi";
 import useHttpClient from "~hooks/useHttpClient";
 import useOptions from "~hooks/useOptions";
 import useToken from "~hooks/useToken";
-import Account from "~pages/Account";
+import Transactions from "~pages/Transactions";
 import AccountSummary from "~pages/index";
 import "./style.css";
 
@@ -39,10 +39,11 @@ const loadingAccountPlaceholder = [
 function IndexPopup() {
     const [accounts, setAccounts] = useState<any[]>(loadingAccountPlaceholder);
     const [transactions, setTransactions] = useState<{}>({});
+    const [nextLinks, setNextLinks] = useState<{}>({});
     const [selectedAccount, setSelectedAccount] = useState();
 
     const { token } = useToken();
-    const { getAccounts, getTransactions } = useHttpClient();
+    const { getAccounts, getTransactions, getNextTransactions } = useHttpClient();
     const { lastTransactionOption } = useOptions();
 
     useEffect(() => {
@@ -58,8 +59,9 @@ function IndexPopup() {
             });
             if (lastTransactionOption) {
                 data.forEach(async (account) => {
-                    let { data: txs } = await getTransactions(account.id);
+                    let { data: txs, links } = await getTransactions(account.id);
                     setTransactions(prev => ({ ...prev, [account.id]: txs }));
+                    setNextLinks(prev => ({ ...prev, [account.id]: links.next }));
                 });
             }
         }
@@ -69,23 +71,12 @@ function IndexPopup() {
         }
 
     }, [token]);
-
-
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-
-    const handleScroll = () => {
-        // const buttonPosBottom = submitForVaccination?.current?.getBoundingClientRect()?.bottom
-        // if (buttonPosBottom !== undefined && buttonPosBottom <= window.innerHeight) {
-        //     setShowActionHelper(false)
-        // } else {
-        //     setShowActionHelper(true)
-        // }
-    };
+    
+    const fetchTransactions = async (id) => {
+        let { data: txs, links } = await getNextTransactions(nextLinks[id]);
+        setTransactions(prev => ({ ...prev, [id]: [...prev[id], ...txs] }));
+        setNextLinks(prev => ({ ...prev, [id]: links.next }));
+    }
 
     return (
         <div className={""}>
@@ -110,7 +101,7 @@ function IndexPopup() {
             >
                 {!selectedAccount
                     ? <AccountSummary accounts={accounts} transactions={transactions} raiseSelectedAccount={setSelectedAccount} />
-                    : <Account id={selectedAccount} account={accounts.find(a => a.id === selectedAccount)} transactions={transactions[selectedAccount]} />
+                    : <Transactions id={selectedAccount} account={accounts.find(a => a.id === selectedAccount)} transactions={transactions[selectedAccount]} fetchTransactions={fetchTransactions} />
                 }
             </div>
             <div className={"flex flex-row justify-center pb-2 text-[#4C4C56] "}>

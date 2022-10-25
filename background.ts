@@ -1,12 +1,7 @@
-const { setBadgeText, setBadgeBackgroundColor, setIcon, setTitle, getTitle } = chrome.action;
-import { Storage } from "@plasmohq/storage";
+const { setBadgeText, setBadgeBackgroundColor } = chrome.action;
 import { formatBadgeNumber } from "~utils/general";
 import { getBadgeOption, getToken } from "~utils/options";
 
-const storage = new Storage({
-    area: "sync"
-});
-const TOKEN_KEY = "up-api-token";
 const URL = "https://api.up.com.au/api/v1";
 
 let token = "";
@@ -31,7 +26,6 @@ async function getAccounts(data?: any) {
     }
 
     if (data) {
-        console.log("badgeOption", badgeOption);
         let badgeText = "";
         if (badgeOption === "total") {
             badgeText = formatBadgeNumber(
@@ -40,7 +34,6 @@ async function getAccounts(data?: any) {
                     return sum;
                 }, 0)
             );
-            console.log("badgeText", badgeText);
         } else if (badgeOption === "hide") {
             badgeText = "";
         } else if (badgeOption) {
@@ -58,7 +51,6 @@ setBadgeBackgroundColor({ color: "#ff7a64" });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.message === "UPDATE_BADGE") {
-        console.log("badgeOption", badgeOption);
         getAccounts(request.accounts);
     } else if (request.message === "UPDATE_BADGE_TYPE") {
         getBadgeOption().then(res => {
@@ -69,7 +61,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 chrome.runtime.onInstalled.addListener(() => {
-    storage.get(TOKEN_KEY).then(token => {
+    getToken().then(token => {
         if (!token) {
             chrome.tabs.create({ url: "/options.html" }, tab => {
                 console.log("Opening settings...");

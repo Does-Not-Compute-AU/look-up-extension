@@ -38,10 +38,6 @@ function OptionsIndex() {
     }
 
     useEffect(() => {
-        console.log("badgeOption", badgeOption);
-    }, [badgeOption]);
-
-    useEffect(() => {
 
         if (token) {
             fetchAccounts();
