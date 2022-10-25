@@ -1,0 +1,39 @@
+{
+  "name": "look-up",
+  "displayName": "Look UP",
+  "version": "2022.1.0",
+  "description": "Unofficial extension to view your UP bank details",
+  "author": "simon",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.3",
+    "@plasmohq/storage": "^0.12.2",
+    "@tailwindcss/forms": "0.5.3",
+    "@tailwindcss/typography": "0.5.7",
+    "clsx": "^1.2.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.6.0",
+    "tailwindcss": "3.1.8"
+  },
+  "devDependencies": {
+    "@plasmohq/prettier-plugin-sort-imports": "3.5.4",
+    "@types/chrome": "0.0.198",
+    "@types/node": "18.11.0",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "plasmo": "0.57.2",
+    "postcss": "8.4.18",
+    "prettier": "2.7.1",
+    "typescript": "4.8.4"
+  },
+  "manifest": {
+    "host_permissions": [],
+    "permissions": [
+      "alarms"
+    ]
+  }
+}

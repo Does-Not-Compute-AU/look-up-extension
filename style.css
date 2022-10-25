@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+    html {
+        @apply h-full bg-[#242430] overflow-y-scroll;
+        /*font-size: 14px;*/
+    }
+
+    body {
+        @apply h-full;
+        font-family: 'Inter', 'sans-serif' !important;
+    }
+}
+
+@layer components {
+    .text-decoration-none {
+        text-decoration: none !important;
+    }
+
+    svg.icon-lg {
+        @apply h-6 w-6;
+    }
+
+    svg.icon-xl {
+        @apply h-8 w-8;
+    }
+
+    svg.icon-md {
+        @apply h-5 w-5;
+    }
+
+    svg.icon-sm {
+        @apply h-4 w-4;
+    }
+
+    .nm-flat-peach {
+        background: #ff7a64;
+        box-shadow: 0.2em 0.2em calc(0.2em * 2) #d96855, calc(0.2em * -1) calc(0.2em * -1) calc(0.2em * 2) #ff8c73;
+    }
+
+    .text-xxs {
+        font-size: 0.65rem;
+        line-height: 0.8rem;
+    }
+
+    .bg-up-pink {
+        background-color: #ff8bb5;
+    }
+    .bg-up-yellow {
+        background-color: #ffef6b;
+    }
+    .bg-up-orange {
+        background-color: #ff7a64;
+    }
+    .text-up-pink {
+        color: #ff8bb5;
+    }
+    .text-up-yellow {
+        color: #ffef6b;
+    }
+    .text-up-orange {
+        color: #ff7a64;
+    }
+}
