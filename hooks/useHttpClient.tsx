@@ -9,9 +9,10 @@ export default function useHttpClient() {
         if (!_token) {
             _token = token ?? await fetchToken();
         }
-        const res = await fetch(URL + endpoint, { headers: { Authorization: "Bearer " + _token } });
-        return res.json();
+
+        return getUrl(URL + endpoint, _token)
     };
+
     const getUrl = async (url, _token = undefined) => {
         if (!_token) {
             _token = token ?? await fetchToken();

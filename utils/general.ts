@@ -1,3 +1,5 @@
+export const UP_API_TOKEN_URL = 'https://api.up.com.au/getting_started'
+
 export const formatBadgeNumber = (amount: string) => {
     if (!amount) {
         return amount;
