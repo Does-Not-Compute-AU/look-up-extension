@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import { FaGithub } from "react-icons/fa";
 import { HiChevronDown, HiExternalLink, HiEye, HiEyeOff } from "react-icons/hi";
 import SwitchButton from "~components/SwitchButton";
 import useHttpClient from "~hooks/useHttpClient";
 import useOptions from "~hooks/useOptions";
 import useToken from "~hooks/useToken";
-import { formatBadgeNumber, UP_API_TOKEN_URL } from "~utils/general";
+import { formatBadgeNumber, UP_API_TOKEN_URL } from "~utils/lib";
 import "./style.css";
 
 const { sendMessage } = chrome.runtime;
@@ -117,9 +118,9 @@ function OptionsIndex() {
                                     <HiExternalLink className={"icon-md ml-2"} />
                                 </a>
                                 <div className={"flex space-x-4"}>
-                                    <button className={"py-2 px-1 w-48 hover:bg-[#E57DA2] text-white rounded-md font-bold text-base"} onClick={clearToken}>Clear Token</button>
                                     <button className={"bg-up-orange text-black py-4 px-2 w-48 hover:bg-[#E5D763] rounded-md font-bold text-base"} onClick={testAndSave}>Test & Save
                                     </button>
+                                    <button className={"py-2 px-1 w-48 hover:bg-[#E57DA2] text-white rounded-md font-bold text-base"} onClick={clearToken}>Clear Token</button>
                                 </div>
                             </div> : <div className={"text-lg font-bold inline-flex text-up-pink hover:text-up-yellow items-center cursor-pointer"} onClick={() => setExpanded(true)}>Show Token<HiChevronDown className={'ml-2'}/></div>}
                         </div> :
@@ -155,13 +156,19 @@ function OptionsIndex() {
                         </div>
                       </div>
                       <div className={"p-4 text-base"}>
-                        Show last transaction in collapsed view:
+                        Show last transaction on accounts page:
                         <div>
                           <SwitchButton enabled={lastTransactionOption} setEnabled={setLastTransactionOption} />
 
                         </div>
                       </div>
                     </div>}
+                </div>
+                <div className={"flex flex-row justify-center pb-2 text-[#4C4C56] mt-4"}>
+                    <a className={'px-4 py-1 hover:text-up-yellow cursor-pointer'} title="Git repository" aria-label="Git repository"
+                         href='https://github.com/Does-Not-Compute-AU/look-up-extension' target='_blank'>
+                        <FaGithub className={"icon-md"} />
+                    </a>
                 </div>
             </div>
         </div>

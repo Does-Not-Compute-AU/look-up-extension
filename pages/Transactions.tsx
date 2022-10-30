@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import { parseBaseUnit } from "~utils/general";
+import { dateToTime, formatBaseUnit, formatUpsiderUsername } from "~utils/lib";
 
-const Transactions = ({ id, account: { attributes: { displayName, balance } }, transactions, fetchTransactions }) => {
+const Transactions = ({ id, account: { attributes: { displayName, balance } }, transactions, fetchTransactions, setSelectedAccount }) => {
     const [parsedTransactions, setParsedTransactions] = useState([]);
 
     useEffect(() => {
@@ -17,6 +17,9 @@ const Transactions = ({ id, account: { attributes: { displayName, balance } }, t
             }
             parsed.push(tx);
 
+            const thisMonth = new Date().getMonth();
+            const monthChange = transactions;
+
         });
         setParsedTransactions(parsed);
 
@@ -29,7 +32,8 @@ const Transactions = ({ id, account: { attributes: { displayName, balance } }, t
                 <div className={"w-24 flex justify-end font-semibold text-[#ff7a64]"}>{`
                             ${"$" + balance.value}
                             ${" " ?? balance.currencyCode}
-                            `}</div>
+                            `}
+                </div>
             </div>
             <InfiniteScroll
                 pageStart={1}
@@ -46,11 +50,18 @@ const Transactions = ({ id, account: { attributes: { displayName, balance } }, t
                                 <div className={"w-32 font-semibold"}>{tx.date}</div>
                             </div>)
                         : (
-                            <div className={"bg-white flex flex-row p-2"}>
-                                <div className={"w-32 font-semibold"}>{tx?.attributes?.description}</div>
+                            <div className={"bg-white flex flex-row p-2 hover:bg-gray-100"} onClick={() => console.log({ tx })}
+                                 title={tx?.attributes?.foreignAmount ? `${formatBaseUnit(tx.attributes.foreignAmount.valueInBaseUnits, undefined, tx.attributes.foreignAmount.currencyCode)} ${tx.attributes.foreignAmount.currencyCode}` : ""}>
+                                <div className={"w-32 font-semibold"}>
+
+                                    <div className={"w-32 font-semibold"}>{formatUpsiderUsername(tx?.attributes?.description)}</div>
+                                    <div
+                                        className={"w-32 font-semibold text-xxs text-gray-600"}>{`${dateToTime(tx.attributes.createdAt)}${tx?.attributes?.message ? ", " + tx.attributes.message : ""}`}</div>
+                                </div>
                                 <div className={clsx("w-24 flex justify-end font-semibold")}>
                                     <span
-                                        className={tx?.attributes?.amount?.valueInBaseUnits > 0 ? "text-green-500" : ""}>{parseBaseUnit(tx?.attributes?.amount?.valueInBaseUnits)}</span>
+                                        className={clsx(tx?.attributes?.amount?.valueInBaseUnits > 0 ? "text-green-500" : "",
+                                            tx.attributes.foreignAmount?.currencyCode ? "underline" : "")}>{formatBaseUnit(tx?.attributes?.amount?.valueInBaseUnits) + `${tx.attributes.foreignAmount?.currencyCode ? "*" : ""}`}</span>
                                     {/*<span className={"ml-1 "}>{tx?.attributes?.amount?.currencyCode}</span>*/}
                                 </div>
                             </div>)

@@ -1,5 +1,5 @@
 const { setBadgeText, setBadgeBackgroundColor } = chrome.action;
-import { formatBadgeNumber } from "~utils/general";
+import { formatBadgeNumber } from "~utils/lib";
 import { getBadgeOption, getToken } from "~utils/options";
 
 const URL = "https://api.up.com.au/api/v1";
@@ -29,10 +29,7 @@ async function getAccounts(data?: any) {
         let badgeText = "";
         if (badgeOption === "total") {
             badgeText = formatBadgeNumber(
-                data.reduce((sum, x) => {
-                    sum += Number(x.attributes.balance.value);
-                    return sum;
-                }, 0)
+                data.reduce((sum, x) => sum += Number(x.attributes.balance.value), 0)
             );
         } else if (badgeOption === "hide") {
             badgeText = "";
@@ -40,6 +37,11 @@ async function getAccounts(data?: any) {
             let accountToShow = data.find(a => a.id === badgeOption);
             if (accountToShow) {
                 badgeText = formatBadgeNumber(accountToShow.attributes.balance.value);
+                let badgeColour = "#ff7a64";
+                if (accountToShow.attributes.ownershipType === "JOINT") {
+                    badgeColour = "#ffef6b";
+                }
+                setBadgeBackgroundColor({ color: badgeColour });
             }
         }
         setBadgeText({ "text": badgeText });
