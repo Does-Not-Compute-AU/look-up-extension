@@ -43,7 +43,7 @@ export const formatUpsiderUsername = (input: string) => {
     if (parts.some(part => part.startsWith("$"))) {
         parts.forEach(part => {
             if (part.startsWith("$")) {
-                formattedParts.push(<span className={"text-[#ff7a64] mr-0.5"}>{"$"}</span>);
+                formattedParts.push(<span className={"text-[#ff7a64] text-sm "}>{"$"}</span>);
                 formattedParts.push(part.replace("$", ""));
             } else {
                 formattedParts.push(part + " ");

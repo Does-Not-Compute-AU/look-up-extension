@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { dateToTime, formatBaseUnit, formatUpsiderUsername } from "~utils/lib";
 
-const Transactions = ({ id, account: { attributes: { displayName, balance } }, transactions, fetchTransactions, setSelectedAccount }) => {
+const Transactions = ({ id, account: { attributes: { displayName } }, transactions, fetchTransactions }) => {
     const [parsedTransactions, setParsedTransactions] = useState([]);
 
     useEffect(() => {
@@ -16,10 +16,6 @@ const Transactions = ({ id, account: { attributes: { displayName, balance } }, t
                 parsed.push({ date });
             }
             parsed.push(tx);
-
-            const thisMonth = new Date().getMonth();
-            const monthChange = transactions;
-
         });
         setParsedTransactions(parsed);
 
@@ -27,13 +23,8 @@ const Transactions = ({ id, account: { attributes: { displayName, balance } }, t
 
     return (
         <>
-            <div className={"flex flex-row p-2 text-base text-[#ffef6e]"}>
-                <div className={"w-32 font-semibold text-white"}>{displayName}</div>
-                <div className={"w-24 flex justify-end font-semibold text-[#ff7a64]"}>{`
-                            ${"$" + balance.value}
-                            ${" " ?? balance.currencyCode}
-                            `}
-                </div>
+            <div className={"flex flex-row p-2 justify-center text-base text-[#ffef6e]"}>
+                <div className={" font-semibold text-white"}>{displayName}</div>
             </div>
             <InfiniteScroll
                 pageStart={1}
