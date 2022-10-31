@@ -8,7 +8,7 @@ const storage = new Storage({
 const TOKEN_KEY = "up-api-token";
 
 export default function useToken() {
-    const [token, setToken] = useState<string>('');
+    const [token, setToken] = useState<string>(null);
     const [storedToken, setStoredToken] = useState<string>('');
 
     useEffect(() => {

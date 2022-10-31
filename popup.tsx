@@ -2,6 +2,7 @@ import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { HiChevronLeft, HiCog } from "react-icons/hi";
+import NavBar from "~components/NavBar";
 import useHttpClient from "~hooks/useHttpClient";
 import useOptions from "~hooks/useOptions";
 import useToken from "~hooks/useToken";
@@ -92,45 +93,23 @@ function IndexPopup() {
         setTransactions(prev => ({ ...prev, [id]: [...prev[id], ...txs] }));
         setNextLinks(prev => ({ ...prev, [id]: links.next }));
     };
-    console.log("selectedAccountId", selectedAccountId);
 
     return (
-        <div className={"w-72"}>
-            <nav className="flex flex-row w-full py-2 fixed top-0">
-                {selectedAccountId &&
-                  <div className="w-full">
-                    <div className={""}>
-                      <div onClick={() => setSelectedAccountId(undefined)}
-                           className={"bg-transparent mx-4 rounded-md w-fit px-2 hover:cursor-pointer text-up-yellow hover:bg-up-yellow hover:text-[#242430]"}>
-                        <HiChevronLeft className={"icon-lg w-full h-full"} />
-                      </div>
-                    </div>
-                  </div>}
-                {!selectedAccountId &&
-                  <div className="w-full">
-                    <div className={""}>
-                      <div className={"py-2 px-4"}>
-                      </div>
-                    </div>
-                  </div>}
-                <div className="flex justify-center w-full text-up-orange font-bold text-base">
-                    <div className={"px-2"}>
-                        {balanceTotal}
+        <div className={"w-80 mx-auto"}>
+            <NavBar selectedAccountId={selectedAccountId} setSelectedAccountId={setSelectedAccountId} balanceTotal={balanceTotal} />
+            {token === undefined ?
+                <div className={'flex flex-col justify-items-end items-center h-96 mt-24'}>
+                    <div className={'h-full w-full flex flex-col items-center justify-center text-center text-white text-sm'}>
+                        <div className={'p-2 w-full'}> No UP API token found!</div>
+                        <div className={'p-2 w-full'}> Open settings to create and save one.</div>
                     </div>
                 </div>
-                <div className="flex justify-end w-full">
-                    <div className={"px-2"}>
-                        <a href={"/options.html"} target={"_blank"}>
-                            <HiCog className={"icon-lg text-[#4C4C56] hover:text-up-yellow hover:cursor-pointer mx-3"} />
-                        </a>
-                    </div>
-                </div>
-            </nav>
+                :
             <div
                 className={"flex flex-row justify-center"}
             >
                 <div
-                    className={"flex flex-col px-4 pb-4 pt-2 mt-8"}
+                    className={"flex flex-col px-6 pb-4 pt-2 mt-10 w-full max-w-sm"}
                 >
                     <Transition
                         show={!selectedAccountId}
@@ -158,6 +137,7 @@ function IndexPopup() {
                     </Transition>
                 </div>
             </div>
+            }
         </div>
     );
 }

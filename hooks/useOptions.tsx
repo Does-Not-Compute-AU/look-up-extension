@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { getBadgeOption, storageSetBadgeOption, getLastTransactionOption, storageSetLastTransactionOption } from "~/utils/options";
 
 export default function useOptions() {
-    const [badgeOption, _setBadgeOption] = useState<string>('');
+    const [badgeOption, _setBadgeOption] = useState<string>(null);
     const [lastTransactionOption, _setLastTransactionOption] = useState<boolean>(true);
 
     useEffect(() => {

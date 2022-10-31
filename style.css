@@ -10,6 +10,7 @@
         @apply h-full bg-[#242430] overflow-y-scroll;
         /*font-size: 14px;*/
     }
+    html::-webkit-scrollbar{display:none !important}
     nav {
         @apply bg-[#242430];
         /*font-size: 14px;*/
@@ -19,6 +20,7 @@
         @apply h-full;
         font-family: 'Inter', 'sans-serif' !important;
     }
+    body::-webkit-scrollbar{display:none !important}
 }
 
 @layer components {

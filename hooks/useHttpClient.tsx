@@ -1,44 +1,47 @@
-import useToken from "~hooks/useToken";
+import useToken from '~hooks/useToken'
 
-const URL = "https://api.up.com.au/api/v1";
+const URL = 'https://api.up.com.au/api/v1'
 
 export default function useHttpClient() {
-    const { token, fetchToken } = useToken();
+    const { token, fetchToken } = useToken()
 
     const get = async (endpoint, _token = undefined) => {
         if (!_token) {
-            _token = token ?? await fetchToken();
+            _token = token ?? (await fetchToken())
         }
 
         return getUrl(URL + endpoint, _token)
-    };
+    }
 
     const getUrl = async (url, _token = undefined) => {
         if (!_token) {
-            _token = token ?? await fetchToken();
+            _token = token ?? (await fetchToken())
         }
-        const res = await fetch(url, { headers: { Authorization: "Bearer " + _token } });
-        return res.json();
-    };
+        if (!_token) {
+            throw new Error('could not get token')
+        }
+        const res = await fetch(url, { headers: { Authorization: 'Bearer ' + _token } })
+        return res.json()
+    }
 
     const ping = async (testToken: string) => {
         if (testToken) {
-            return get("/util/ping", testToken);
+            return get('/util/ping', testToken)
         }
-    };
+    }
 
     const getAccounts = async () => {
-        return await get("/accounts");
-    };
+        return await get('/accounts')
+    }
 
     const getTransactions = async (id, pageSize = 20) => {
-        const endpoint = "/accounts/" + id + "/transactions/" + encodeURI("?page[size]=") + pageSize;
-        return await get(endpoint);
-    };
+        const endpoint = '/accounts/' + id + '/transactions/' + encodeURI('?page[size]=') + pageSize
+        return await get(endpoint)
+    }
 
     const getNextTransactions = async (link) => {
-        return await getUrl(link);
-    };
+        return await getUrl(link)
+    }
 
-    return { ping, getAccounts, getTransactions, getNextTransactions };
+    return { ping, getAccounts, getTransactions, getNextTransactions }
 }
