@@ -17,13 +17,16 @@ const Accounts = ({ accounts, transactions, raiseSelectedAccount }: Props) => {
     const { lastTransactionOption } = useOptions()
 
     return accounts ? (
-        <div className={'space-y-4 w-full'}>
+        <div className={'space-y-4 w-full my-4'}>
+            {/* Accounts */}
             {accounts.map(({ id, attributes: { displayName, balance } }) => (
                 <div key={id} className={'flex flex-col justify-center bg-white w-full hover:bg-zinc-900 hover:cursor-pointer group'} onClick={() => raiseSelectedAccount(id)}>
-                    <div className={'flex flex-row p-2 text-base group-hover:text-[#ffef6e]'}>
+                    <div className={'flex flex-row p-2 text-base group-hover:text-up-yellow'}>
                         <div className={'w-full font-semibold'}>{displayName}</div>
-                        <div className={'w-full flex justify-end font-semibold'}>{`${'$' + balance.value} ${' ' ?? balance.currencyCode}`}</div>
+                        <div className={'w-full flex justify-end font-semibold'}>{formatBaseUnit(Number(balance.value) * 100, false, balance.currencyCode)}</div>
                     </div>
+
+                    {/* Last Transaction */}
                     {lastTransactionOption &&
                         (transactions?.[id] ? (
                             <div className={'flex flex-row bg-gray-200 p-2 group-hover:bg-zinc-700 group-hover:text-white'}>

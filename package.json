@@ -2,8 +2,8 @@
   "name": "look-up",
   "displayName": "Look UP",
   "version": "2022.1.0",
-  "description": "Unofficial extension to view your UP bank details",
-  "author": "simon",
+  "description": "Unofficial extension to view your UP bank accounts and transactions",
+  "author": "Does Not Compute",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build"
